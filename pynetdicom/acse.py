@@ -374,7 +374,7 @@ class ACSE(object):
             self.acceptor.add_negotiation_item(item)
 
         # Send the A-ASSOCIATE (accept) primitive
-        LOGGER.info("Accepting Association")
+        LOGGER.info(f"Accepting Association on thread {self.assoc.ident}")
         self.send_accept()
 
         # Callbacks/Logging
