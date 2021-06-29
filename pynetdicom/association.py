@@ -7,6 +7,7 @@ import logging
 import threading
 import time
 import warnings
+import traceback
 
 from pydicom.dataset import Dataset
 from pydicom.uid import UID
@@ -186,7 +187,7 @@ class Association(threading.Thread):
         if not self.is_released:
             # Ensure the reactor is running so it can be exited
             self._reactor_checkpoint.set()
-            LOGGER.info('Aborting Association')
+            LOGGER.info(f'Aborting Association on thread {self.ident}, stack trace: {traceback.format_stack()}')
             self.acse.send_abort(0x00)
             # Event handler - association aborted
             evt.trigger(self, evt.EVT_ABORTED, {})
@@ -590,7 +591,7 @@ class Association(threading.Thread):
 
             # Check for abort
             if self.acse.is_aborted():
-                LOGGER.info('Association Aborted')
+                LOGGER.info(f'Association Aborted on thread {self.ident}')
                 self.is_aborted = True
                 self.is_established = False
                 evt.trigger(self, evt.EVT_ABORTED, {})
@@ -705,6 +706,7 @@ class Association(threading.Thread):
             return
 
         # Attempt to handle the service request
+        LOGGER.info(f"Handling store request on thread {self.ident}")
         try:
             status = evt.trigger(
                 self,

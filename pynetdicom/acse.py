@@ -462,7 +462,7 @@ class ACSE(object):
                     evt.trigger(self.assoc, evt.EVT_ABORTED, {})
                     self.assoc.kill()
                 else:
-                    LOGGER.info('Association Accepted')
+                    LOGGER.info(f'Association Accepted on thread {self.assoc.ident}')
                     self.assoc.is_established = True
                     evt.trigger(self.assoc, evt.EVT_ESTABLISHED, {})
 
