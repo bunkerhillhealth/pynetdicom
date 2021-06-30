@@ -155,6 +155,7 @@ def trigger(assoc, event, attrs=None):
     if not handlers:
         return
 
+    LOGGER.info(f"Received event {event} on thread {assoc.ident}")
     evt = Event(assoc, event, attrs or {})
 
     try:
