@@ -1240,7 +1240,7 @@ def _recv_c_store_rq(event):
     if msg.data_set and msg.data_set.getvalue() != b'':
         dataset = 'Present'
 
-    LOGGER.info(f'Received Store Request')
+    LOGGER.info(f'Received Store Request on thread {event.assoc.ident}')
 
     s = []
     s.append('{:=^76}'.format(' INCOMING DIMSE MESSAGE '))
