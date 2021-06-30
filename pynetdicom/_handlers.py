@@ -1,6 +1,7 @@
 """Standard logging event handlers."""
 
 import logging
+import traceback
 
 from pynetdicom.dimse_messages import *
 from pynetdicom.pdu import (
@@ -1239,7 +1240,7 @@ def _recv_c_store_rq(event):
     if msg.data_set and msg.data_set.getvalue() != b'':
         dataset = 'Present'
 
-    LOGGER.info('Received Store Request')
+    LOGGER.info(f'Received Store Request: {traceback.format_stack()}')
 
     s = []
     s.append('{:=^76}'.format(' INCOMING DIMSE MESSAGE '))
