@@ -156,7 +156,8 @@ def trigger(assoc, event, attrs=None):
         return
 
     evt = Event(assoc, event, attrs or {})
-    LOGGER.info(f"Handling event of type {type(event.message)} on thread {assoc.ident}")
+    if hasattr(event, 'message'):
+        LOGGER.info(f"Handling event of type {type(event.message)} on thread {assoc.ident}")
     try:
         # Intervention event - only single handler allowed
         if event.is_intervention:
