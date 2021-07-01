@@ -151,7 +151,6 @@ def trigger(assoc, event, attrs=None):
     # Get the handler(s) bound to the event
     #   notification events: returns a list of callable
     #   intervention events: returns a callable or None
-    LOGGER.info(f"Received event {event} on thread {assoc.ident}")
     handlers = assoc.get_handlers(event)
     if not handlers:
         return

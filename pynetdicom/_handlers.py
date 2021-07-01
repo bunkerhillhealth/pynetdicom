@@ -2,6 +2,7 @@
 
 import logging
 import traceback
+import datetime
 
 from pynetdicom.dimse_messages import *
 from pynetdicom.pdu import (
@@ -1240,7 +1241,7 @@ def _recv_c_store_rq(event):
     if msg.data_set and msg.data_set.getvalue() != b'':
         dataset = 'Present'
 
-    LOGGER.info(f'Received Store Request on thread {event.assoc.ident}')
+    LOGGER.info(f'Received Store Request on thread {event.assoc.ident} at {datetime.datetime.now()}')
 
     s = []
     s.append('{:=^76}'.format(' INCOMING DIMSE MESSAGE '))

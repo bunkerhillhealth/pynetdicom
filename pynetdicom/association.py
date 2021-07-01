@@ -8,6 +8,7 @@ import threading
 import time
 import warnings
 import traceback
+import datetime
 
 from pydicom.dataset import Dataset
 from pydicom.uid import UID
@@ -187,7 +188,7 @@ class Association(threading.Thread):
         if not self.is_released:
             # Ensure the reactor is running so it can be exited
             self._reactor_checkpoint.set()
-            LOGGER.info(f'Aborting Association on thread {self.ident}, stack trace: {traceback.format_stack()}')
+            LOGGER.info(f'Aborting Association on thread {self.ident} at {datetime.datetime.now()}, stack trace: {traceback.format_stack()}')
             self.acse.send_abort(0x00)
             # Event handler - association aborted
             evt.trigger(self, evt.EVT_ABORTED, {})
@@ -591,7 +592,7 @@ class Association(threading.Thread):
 
             # Check for abort
             if self.acse.is_aborted():
-                LOGGER.info(f'Association Aborted on thread {self.ident}')
+                LOGGER.info(f'Association Aborted on thread {self.ident} at {datetime.datetime.now()}')
                 self.is_aborted = True
                 self.is_established = False
                 evt.trigger(self, evt.EVT_ABORTED, {})
@@ -606,6 +607,7 @@ class Association(threading.Thread):
 
             # Check if idle timer has expired
             if self.dul.idle_timer_expired():
+                LOGGER.info(f'Found DUL timer expired on thread {self.ident} at {datetime.datetime.now()}. Timer start_time is {datetime.datetime.fromtimestamp(self.dul._idle_timer.start_time)}')
                 self.abort()
                 self.kill()
                 return
@@ -706,7 +708,7 @@ class Association(threading.Thread):
             return
 
         # Attempt to handle the service request
-        LOGGER.info(f"Handling store request on thread {self.ident}")
+        LOGGER.info(f"Handling store request on thread {self.ident} at {datetime.datetime.now()}")
         try:
             status = evt.trigger(
                 self,

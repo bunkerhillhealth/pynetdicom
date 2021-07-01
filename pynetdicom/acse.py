@@ -1,6 +1,7 @@
 """ACSE service provider"""
 
 import logging
+import datetime
 
 from pynetdicom import evt
 from pynetdicom._globals import APPLICATION_CONTEXT_NAME
@@ -374,7 +375,7 @@ class ACSE(object):
             self.acceptor.add_negotiation_item(item)
 
         # Send the A-ASSOCIATE (accept) primitive
-        LOGGER.info(f"Accepting Association on thread {self.assoc.ident}")
+        LOGGER.info(f"Accepting Association on thread {self.assoc.ident} at {datetime.datetime.now()}")
         self.send_accept()
 
         # Callbacks/Logging
@@ -462,7 +463,7 @@ class ACSE(object):
                     evt.trigger(self.assoc, evt.EVT_ABORTED, {})
                     self.assoc.kill()
                 else:
-                    LOGGER.info(f'Association Accepted on thread {self.assoc.ident}')
+                    LOGGER.info(f'Association Accepted on thread {self.assoc.ident} at {datetime.datetime.now()}')
                     self.assoc.is_established = True
                     evt.trigger(self.assoc, evt.EVT_ESTABLISHED, {})
 
