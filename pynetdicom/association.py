@@ -607,7 +607,7 @@ class Association(threading.Thread):
 
             # Check if idle timer has expired
             if self.dul.idle_timer_expired():
-                LOGGER.info(f'Found DUL timer expired on thread {self.ident} at {datetime.datetime.now()}. Timer start_time is {datetime.datetime.fromtimestamp(self.dul._idle_timer.start_time)}')
+                LOGGER.info(f'Found DUL timer expired on thread {self.ident} at {datetime.datetime.now()}. Timer start_time is {datetime.datetime.fromtimestamp(self.dul._idle_timer._start_time)}')
                 self.abort()
                 self.kill()
                 return

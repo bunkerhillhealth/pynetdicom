@@ -374,7 +374,7 @@ class DULServiceProvider(Thread):
         """
         # Main DUL loop
         self._idle_timer.start()
-        LOGGER.info(f"Restarting timer for association thread {self.assoc.ident} at {datetime.datetime.now()}. Timer start_time is {datetime.datetime.fromtimestamp(self._idle_timer.start_time)}")
+        LOGGER.info(f"Restarting timer for association thread {self.assoc.ident} at {datetime.datetime.now()}. Timer start_time is {datetime.datetime.fromtimestamp(self._idle_timer._start_time)}")
 
         while True:
             # Let the assoc reactor off the leash
@@ -400,7 +400,7 @@ class DULServiceProvider(Thread):
                     pass
                 elif self._is_transport_event():
                     self._idle_timer.restart()
-                    LOGGER.info(f"Restarting timer for association thread {self.assoc.ident} at {datetime.datetime.now()}. Timer start_time is {datetime.datetime.fromtimestamp(self._idle_timer.start_time)}.")
+                    LOGGER.info(f"Restarting timer for association thread {self.assoc.ident} at {datetime.datetime.now()}. Timer start_time is {datetime.datetime.fromtimestamp(self._idle_timer._start_time)}.")
             except Exception as exc:
                 LOGGER.error("Exception in DUL.run(), aborting association")
                 LOGGER.exception(exc)
