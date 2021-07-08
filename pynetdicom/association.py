@@ -708,7 +708,7 @@ class Association(threading.Thread):
             return
 
         # Attempt to handle the service request
-        LOGGER.info(f"Handling store request on thread {self.ident} at {datetime.datetime.now()}")
+        LOGGER.info(f"Handling Store Request on thread {self.ident} at {datetime.datetime.now()}")
         try:
             status = evt.trigger(
                 self,
