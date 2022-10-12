@@ -43,7 +43,7 @@ setup(
         "Topic :: Scientific/Engineering :: Medical Science Apps.",
         "Topic :: Software Development :: Libraries",
     ],
-    install_requires = ["pydicom>=2.0.0"],
+    install_requires = ["pydicom>=2.0.0", "prometheus_client==0.8.0"],
     extras_require = {  # will also install from `install_requires`
         'apps': ["sqlalchemy"],
         'docs' : [

@@ -30,6 +30,12 @@ if TYPE_CHECKING:  # pragma: no cover
 
 LOGGER = logging.getLogger('pynetdicom.dul')
 
+from prometheus_client import Counter
+
+PYNETDICOM_TIME_RECEIVING = Counter(
+  name='pynetdicom_time_receiving_seconds',
+  documentation='Total time pynetdicom has spent receiving data through the socket',
+)
 
 class DULServiceProvider(Thread):
     """The DICOM Upper Layer Service Provider.
@@ -164,7 +170,10 @@ class DULServiceProvider(Thread):
             #   Might be any incoming PDU or valid/invalid data
             if self.socket and self.socket.ready:
                 # Data still available, grab it
+                start = time.time()
                 self._read_pdu_data()
+                diff = time.time() - start
+                PYNETDICOM_TIME_RECEIVING.inc(diff)
                 return True
 
             # Once we have no more incoming data close the socket and
@@ -179,7 +188,10 @@ class DULServiceProvider(Thread):
         # Fix for #28 - caused by peer disconnecting before run loop is
         #   stopped by assoc.release()
         if self.socket and self.socket.ready:
+            start = time.time()
             self._read_pdu_data()
+            diff = time.time() - start
+            PYNETDICOM_TIME_RECEIVING.inc(diff)
             return True
 
         return False
