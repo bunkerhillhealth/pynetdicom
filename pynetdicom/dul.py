@@ -179,7 +179,8 @@ class DULServiceProvider(Thread):
                 start = time.time()
                 self._read_pdu_data()
                 diff = time.time() - start
-                PYNETDICOM_TIME_RECEIVING.inc(diff)
+                if self._assoc.should_time:
+                    PYNETDICOM_TIME_RECEIVING.inc(diff)
                 return True
 
             # Once we have no more incoming data close the socket and
@@ -197,7 +198,8 @@ class DULServiceProvider(Thread):
             start = time.time()
             self._read_pdu_data()
             diff = time.time() - start
-            PYNETDICOM_TIME_RECEIVING.inc(diff)
+            if self._assoc.should_time:
+                PYNETDICOM_TIME_RECEIVING.inc(diff)
             return True
 
         return False

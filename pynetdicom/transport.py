@@ -341,7 +341,7 @@ class RequestHandler(BaseRequestHandler):
         """
         from pynetdicom.association import Association
 
-        assoc = Association(self.ae, MODE_ACCEPTOR)
+        assoc = Association(self.ae, MODE_ACCEPTOR, should_time=self.server.should_time)
         assoc._server = self.server
 
         # Set the thread name
@@ -418,7 +418,7 @@ class AssociationServer(TCPServer):
         is required (default).
     """
     def __init__(self, ae, address, ae_title, contexts, ssl_context=None,
-                 evt_handlers=None):
+                 evt_handlers=None, should_time=False):
         """Create a new AssociationServer, bind a socket and start listening.
 
         Parameters
@@ -444,6 +444,7 @@ class AssociationServer(TCPServer):
         self.contexts = contexts
         self.ssl_context = ssl_context
         self.allow_reuse_address = True
+        self.should_time = should_time
 
         TCPServer.__init__(
             self, address, RequestHandler, bind_and_activate=True

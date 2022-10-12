@@ -1040,7 +1040,7 @@ class ApplicationEntity(object):
         ]
 
     def start_server(self, address, block=True, ssl_context=None,
-                     evt_handlers=None, ae_title=None, contexts=None):
+                     evt_handlers=None, ae_title=None, contexts=None, should_time=False):
         """Start the AE as an association acceptor.
 
         If set to non-blocking then a running ``ThreadedAssociationServer``
@@ -1115,7 +1115,7 @@ class ApplicationEntity(object):
             # Blocking server
             server = AssociationServer(
                 self, address, ae_title, contexts, ssl_context,
-                evt_handlers=evt_handlers,
+                evt_handlers=evt_handlers, should_time=should_time,
             )
             self._servers.append(server)
 
@@ -1129,7 +1129,7 @@ class ApplicationEntity(object):
             timestamp = datetime.strftime(datetime.now(), "%Y%m%d%H%M%S")
             server = ThreadedAssociationServer(
                 self, address, ae_title, contexts, ssl_context,
-                evt_handlers=evt_handlers,
+                evt_handlers=evt_handlers, should_time=should_time,
             )
 
             thread = threading.Thread(

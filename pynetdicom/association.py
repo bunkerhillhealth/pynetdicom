@@ -120,7 +120,7 @@ class Association(threading.Thread):
     requestor : association.ServiceUser
         Representation of the association's requestor AE.
     """
-    def __init__(self, ae, mode):
+    def __init__(self, ae, mode, should_time=False):
         """Create a new ``Association`` instance.
 
         The association starts in State 1 (idle). Association negotiation
@@ -136,6 +136,7 @@ class Association(threading.Thread):
         """
         self._ae = ae
         self.mode = mode
+        self.should_time = should_time
 
         # If acceptor this is the parent AssociationServer, used to identify
         #   the thread when updating bound event-handlers
